@@ -5,6 +5,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.api.exception_handlers import register_exception_handlers
+from app.api.v1.users import router as users_router
 from app.db.pool import close_pool, create_pool
 
 
@@ -20,6 +22,10 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+app.include_router(users_router, prefix="/api/v1")
+
+register_exception_handlers(app)
 
 
 @app.get("/health")

@@ -1,0 +1,545 @@
+{
+  "configuration" : { },
+  "description" : "Description",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2026-05-06T21:32:31Z",
+  "model" : {
+    "deploymentNodes" : [ {
+      "children" : [ {
+        "containerInstances" : [ {
+          "containerId" : "4",
+          "environment" : "Local",
+          "id" : "29",
+          "instanceId" : 1,
+          "properties" : {
+            "structurizr.dsl.identifier" : "apiAppLocalInstance"
+          },
+          "relationships" : [ {
+            "description" : "Reads from and writes to",
+            "destinationId" : "32",
+            "id" : "33",
+            "linkedRelationshipId" : "15",
+            "sourceId" : "29",
+            "technology" : "asyncpg"
+          }, {
+            "description" : "Sends transactional verification emails via",
+            "destinationId" : "35",
+            "id" : "36",
+            "linkedRelationshipId" : "16",
+            "sourceId" : "29",
+            "technology" : "SMTP / HTTP"
+          } ],
+          "tags" : "Container Instance"
+        } ],
+        "description" : "ASGI server",
+        "environment" : "Local",
+        "id" : "28",
+        "instances" : "1",
+        "name" : "uvicorn",
+        "properties" : {
+          "structurizr.dsl.identifier" : "dbc00107-3c67-4703-97be-97239d70e1fb"
+        },
+        "tags" : "Element,Deployment Node"
+      }, {
+        "children" : [ {
+          "containerInstances" : [ {
+            "containerId" : "12",
+            "environment" : "Local",
+            "id" : "32",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "databaseLocalInstance"
+            },
+            "tags" : "Container Instance"
+          } ],
+          "environment" : "Local",
+          "id" : "31",
+          "instances" : "1",
+          "name" : "PostgreSQL 18",
+          "properties" : {
+            "structurizr.dsl.identifier" : "58251c22-b77c-468d-aca9-797f1450e5e8"
+          },
+          "tags" : "Element,Deployment Node"
+        }, {
+          "description" : "SMTP server mock",
+          "environment" : "Local",
+          "id" : "34",
+          "instances" : "1",
+          "name" : "Mailpit",
+          "properties" : {
+            "structurizr.dsl.identifier" : "59997a03-2413-43cc-ac1d-61f9d0425d08"
+          },
+          "softwareSystemInstances" : [ {
+            "environment" : "Local",
+            "id" : "35",
+            "instanceId" : 1,
+            "properties" : {
+              "structurizr.dsl.identifier" : "emailServiceLocalInstance"
+            },
+            "softwareSystemId" : "2",
+            "tags" : "Software System Instance"
+          } ],
+          "tags" : "Element,Deployment Node"
+        } ],
+        "environment" : "Local",
+        "id" : "30",
+        "instances" : "1",
+        "name" : "Docker Compose",
+        "properties" : {
+          "structurizr.dsl.identifier" : "a558f193-34af-402b-8ffa-2cb04c5e4241"
+        },
+        "tags" : "Element,Deployment Node"
+      } ],
+      "environment" : "Local",
+      "id" : "27",
+      "instances" : "1",
+      "name" : "Developer Machine",
+      "properties" : {
+        "structurizr.dsl.identifier" : "9f57ec1b-4ccc-422a-9bce-5adb29b3a07b"
+      },
+      "tags" : "Element,Deployment Node"
+    } ],
+    "people" : [ {
+      "description" : "A person who wants to register and activate their account",
+      "id" : "1",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Registers and activates account using",
+        "destinationId" : "3",
+        "id" : "13",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS / JSON"
+      }, {
+        "description" : "Sends HTTP requests to",
+        "destinationId" : "4",
+        "id" : "14",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS / JSON"
+      } ],
+      "tags" : "Element,Person,External"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "SMTP server or email provider that delivers verification emails to users",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "Email Service",
+      "properties" : {
+        "structurizr.dsl.identifier" : "emailService"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "containers" : [ {
+        "components" : [ {
+          "description" : "Exposes POST /auth/register to create a new unactivated user account",
+          "documentation" : { },
+          "id" : "5",
+          "name" : "Registration Router",
+          "properties" : {
+            "structurizr.dsl.identifier" : "registrationRouter"
+          },
+          "relationships" : [ {
+            "description" : "Delegates user creation to",
+            "destinationId" : "7",
+            "id" : "18",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "FastAPI APIRouter"
+        }, {
+          "description" : "Exposes POST /auth/activate, protected by HTTP Basic Auth, to activate a user account",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "Activation Router",
+          "properties" : {
+            "structurizr.dsl.identifier" : "activationRouter"
+          },
+          "relationships" : [ {
+            "description" : "Delegates account activation to",
+            "destinationId" : "7",
+            "id" : "19",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "FastAPI APIRouter"
+        }, {
+          "description" : "Orchestrates user creation and account activation business logic",
+          "documentation" : { },
+          "id" : "7",
+          "name" : "User Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "userService"
+          },
+          "relationships" : [ {
+            "description" : "Generates and validates 4-digit codes using",
+            "destinationId" : "8",
+            "id" : "20",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Requests verification email dispatch",
+            "destinationId" : "9",
+            "id" : "21",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Persists and retrieves user data",
+            "destinationId" : "10",
+            "id" : "22",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Service"
+        }, {
+          "description" : "Generates 4-digit codes, stores them with 1-minute TTL, and validates them at activation",
+          "documentation" : { },
+          "id" : "8",
+          "name" : "Verification Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "verificationService"
+          },
+          "relationships" : [ {
+            "description" : "Stores and retrieves verification codes",
+            "destinationId" : "11",
+            "id" : "23",
+            "sourceId" : "8",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Service"
+        }, {
+          "description" : "Builds and sends verification emails containing the 4-digit code",
+          "documentation" : { },
+          "id" : "9",
+          "name" : "Email Notification Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "emailNotificationService"
+          },
+          "relationships" : [ {
+            "description" : "Sends email via",
+            "destinationId" : "2",
+            "id" : "26",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "SMTP / HTTP"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "Python Service"
+        }, {
+          "description" : "Reads and writes user records from the database",
+          "documentation" : { },
+          "id" : "10",
+          "name" : "User Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "userRepository"
+          },
+          "relationships" : [ {
+            "description" : "Reads from and writes to",
+            "destinationId" : "12",
+            "id" : "24",
+            "sourceId" : "10",
+            "tags" : "Relationship",
+            "technology" : "asyncpg"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "SQLAlchemy / asyncpg"
+        }, {
+          "description" : "Stores and retrieves verification codes with expiry timestamp in the database",
+          "documentation" : { },
+          "id" : "11",
+          "name" : "Verification Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "verificationRepository"
+          },
+          "relationships" : [ {
+            "description" : "Reads from and writes to",
+            "destinationId" : "12",
+            "id" : "25",
+            "sourceId" : "11",
+            "tags" : "Relationship",
+            "technology" : "asyncpg"
+          } ],
+          "tags" : "Element,Component",
+          "technology" : "SQLAlchemy / asyncpg"
+        } ],
+        "description" : "Handles HTTP requests and orchestrates the registration flow",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "FastAPI Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "apiApp"
+        },
+        "relationships" : [ {
+          "description" : "Reads from and writes to",
+          "destinationId" : "12",
+          "id" : "15",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "asyncpg"
+        }, {
+          "description" : "Sends transactional verification emails via",
+          "destinationId" : "2",
+          "id" : "16",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "SMTP / HTTP"
+        } ],
+        "tags" : "Element,Container",
+        "technology" : "Python / FastAPI"
+      }, {
+        "description" : "Stores user accounts with hashed passwords and activation status",
+        "documentation" : { },
+        "id" : "12",
+        "name" : "Database",
+        "properties" : {
+          "structurizr.dsl.identifier" : "database"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "PostgreSQL"
+      } ],
+      "description" : "Handles user registration and account activation via email verification",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "User Registration API",
+      "properties" : {
+        "structurizr.dsl.identifier" : "registrationApi"
+      },
+      "relationships" : [ {
+        "description" : "Sends transactional verification emails via",
+        "destinationId" : "2",
+        "id" : "17",
+        "linkedRelationshipId" : "16",
+        "sourceId" : "3",
+        "technology" : "SMTP / HTTP"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Name",
+  "properties" : {
+    "structurizr.inspection.error" : "17",
+    "structurizr.dsl" : "d29ya3NwYWNlIHsKICAgIG1vZGVsIHsKICAgICAgICAjIEFjdG9ycwogICAgICAgIHVzZXIgPSBwZXJzb24gIlVzZXIiICJBIHBlcnNvbiB3aG8gd2FudHMgdG8gcmVnaXN0ZXIgYW5kIGFjdGl2YXRlIHRoZWlyIGFjY291bnQiIHsKICAgICAgICAgICAgdGFncyAiRXh0ZXJuYWwiCiAgICAgICAgfQoKICAgICAgICAjIEV4dGVybmFsIHN5c3RlbXMKICAgICAgICBlbWFpbFNlcnZpY2UgPSBzb2Z0d2FyZVN5c3RlbSAiRW1haWwgU2VydmljZSIgIlNNVFAgc2VydmVyIG9yIGVtYWlsIHByb3ZpZGVyIHRoYXQgZGVsaXZlcnMgdmVyaWZpY2F0aW9uIGVtYWlscyB0byB1c2VycyIgewogICAgICAgICAgICB0YWdzICJFeHRlcm5hbCIKICAgICAgICB9CgogICAgICAgICMgVXNlciBSZWdpc3RyYXRpb24gQVBJIHN5c3RlbQogICAgICAgIHJlZ2lzdHJhdGlvbkFwaSA9IHNvZnR3YXJlU3lzdGVtICJVc2VyIFJlZ2lzdHJhdGlvbiBBUEkiICJIYW5kbGVzIHVzZXIgcmVnaXN0cmF0aW9uIGFuZCBhY2NvdW50IGFjdGl2YXRpb24gdmlhIGVtYWlsIHZlcmlmaWNhdGlvbiIgewoKICAgICAgICAgICAgYXBpQXBwID0gY29udGFpbmVyICJGYXN0QVBJIEFwcGxpY2F0aW9uIiAiSGFuZGxlcyBIVFRQIHJlcXVlc3RzIGFuZCBvcmNoZXN0cmF0ZXMgdGhlIHJlZ2lzdHJhdGlvbiBmbG93IiAiUHl0aG9uIC8gRmFzdEFQSSIgewoKICAgICAgICAgICAgICAgIHJlZ2lzdHJhdGlvblJvdXRlciA9IGNvbXBvbmVudCAiUmVnaXN0cmF0aW9uIFJvdXRlciIgIkV4cG9zZXMgUE9TVCAvYXV0aC9yZWdpc3RlciB0byBjcmVhdGUgYSBuZXcgdW5hY3RpdmF0ZWQgdXNlciBhY2NvdW50IiAiRmFzdEFQSSBBUElSb3V0ZXIiCiAgICAgICAgICAgICAgICBhY3RpdmF0aW9uUm91dGVyID0gY29tcG9uZW50ICJBY3RpdmF0aW9uIFJvdXRlciIgIkV4cG9zZXMgUE9TVCAvYXV0aC9hY3RpdmF0ZSwgcHJvdGVjdGVkIGJ5IEhUVFAgQmFzaWMgQXV0aCwgdG8gYWN0aXZhdGUgYSB1c2VyIGFjY291bnQiICJGYXN0QVBJIEFQSVJvdXRlciIKCiAgICAgICAgICAgICAgICB1c2VyU2VydmljZSA9IGNvbXBvbmVudCAiVXNlciBTZXJ2aWNlIiAiT3JjaGVzdHJhdGVzIHVzZXIgY3JlYXRpb24gYW5kIGFjY291bnQgYWN0aXZhdGlvbiBidXNpbmVzcyBsb2dpYyIgIlB5dGhvbiBTZXJ2aWNlIgogICAgICAgICAgICAgICAgdmVyaWZpY2F0aW9uU2VydmljZSA9IGNvbXBvbmVudCAiVmVyaWZpY2F0aW9uIFNlcnZpY2UiICJHZW5lcmF0ZXMgNC1kaWdpdCBjb2Rlcywgc3RvcmVzIHRoZW0gd2l0aCAxLW1pbnV0ZSBUVEwsIGFuZCB2YWxpZGF0ZXMgdGhlbSBhdCBhY3RpdmF0aW9uIiAiUHl0aG9uIFNlcnZpY2UiCiAgICAgICAgICAgICAgICBlbWFpbE5vdGlmaWNhdGlvblNlcnZpY2UgPSBjb21wb25lbnQgIkVtYWlsIE5vdGlmaWNhdGlvbiBTZXJ2aWNlIiAiQnVpbGRzIGFuZCBzZW5kcyB2ZXJpZmljYXRpb24gZW1haWxzIGNvbnRhaW5pbmcgdGhlIDQtZGlnaXQgY29kZSIgIlB5dGhvbiBTZXJ2aWNlIgoKICAgICAgICAgICAgICAgIHVzZXJSZXBvc2l0b3J5ID0gY29tcG9uZW50ICJVc2VyIFJlcG9zaXRvcnkiICJSZWFkcyBhbmQgd3JpdGVzIHVzZXIgcmVjb3JkcyBmcm9tIHRoZSBkYXRhYmFzZSIgIlNRTEFsY2hlbXkgLyBhc3luY3BnIgogICAgICAgICAgICAgICAgdmVyaWZpY2F0aW9uUmVwb3NpdG9yeSA9IGNvbXBvbmVudCAiVmVyaWZpY2F0aW9uIFJlcG9zaXRvcnkiICJTdG9yZXMgYW5kIHJldHJpZXZlcyB2ZXJpZmljYXRpb24gY29kZXMgd2l0aCBleHBpcnkgdGltZXN0YW1wIGluIHRoZSBkYXRhYmFzZSIgIlNRTEFsY2hlbXkgLyBhc3luY3BnIgogICAgICAgICAgICB9CgogICAgICAgICAgICBkYXRhYmFzZSA9IGNvbnRhaW5lciAiRGF0YWJhc2UiICJTdG9yZXMgdXNlciBhY2NvdW50cyB3aXRoIGhhc2hlZCBwYXNzd29yZHMgYW5kIGFjdGl2YXRpb24gc3RhdHVzIiAiUG9zdGdyZVNRTCIgewogICAgICAgICAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgICAgICAgIH0KCiAgICAgICAgfQoKICAgICAgICAjIFJlbGF0aW9uc2hpcHMgKEFjdG9ycyAtPiBTeXN0ZW0pCiAgICAgICAgdXNlciAtPiByZWdpc3RyYXRpb25BcGkgIlJlZ2lzdGVycyBhbmQgYWN0aXZhdGVzIGFjY291bnQgdXNpbmciICJIVFRQUyAvIEpTT04iCgogICAgICAgICMgUmVsYXRpb25zaGlwcyAoQWN0b3JzIC0+IENvbnRhaW5lcnMpCiAgICAgICAgdXNlciAtPiBhcGlBcHAgIlNlbmRzIEhUVFAgcmVxdWVzdHMgdG8iICJIVFRQUyAvIEpTT04iCgogICAgICAgICMgUmVsYXRpb25zaGlwcyAoQ29udGFpbmVycykKICAgICAgICBhcGlBcHAgLT4gZGF0YWJhc2UgIlJlYWRzIGZyb20gYW5kIHdyaXRlcyB0byIgImFzeW5jcGciCiAgICAgICAgYXBpQXBwIC0+IGVtYWlsU2VydmljZSAiU2VuZHMgdHJhbnNhY3Rpb25hbCB2ZXJpZmljYXRpb24gZW1haWxzIHZpYSIgIlNNVFAgLyBIVFRQIgoKICAgICAgICAjIFJlbGF0aW9uc2hpcHMgKENvbXBvbmVudHMpCiAgICAgICAgcmVnaXN0cmF0aW9uUm91dGVyIC0+IHVzZXJTZXJ2aWNlICJEZWxlZ2F0ZXMgdXNlciBjcmVhdGlvbiB0byIKICAgICAgICBhY3RpdmF0aW9uUm91dGVyIC0+IHVzZXJTZXJ2aWNlICJEZWxlZ2F0ZXMgYWNjb3VudCBhY3RpdmF0aW9uIHRvIgogICAgICAgIHVzZXJTZXJ2aWNlIC0+IHZlcmlmaWNhdGlvblNlcnZpY2UgIkdlbmVyYXRlcyBhbmQgdmFsaWRhdGVzIDQtZGlnaXQgY29kZXMgdXNpbmciCiAgICAgICAgdXNlclNlcnZpY2UgLT4gZW1haWxOb3RpZmljYXRpb25TZXJ2aWNlICJSZXF1ZXN0cyB2ZXJpZmljYXRpb24gZW1haWwgZGlzcGF0Y2giCiAgICAgICAgdXNlclNlcnZpY2UgLT4gdXNlclJlcG9zaXRvcnkgIlBlcnNpc3RzIGFuZCByZXRyaWV2ZXMgdXNlciBkYXRhIgogICAgICAgIHZlcmlmaWNhdGlvblNlcnZpY2UgLT4gdmVyaWZpY2F0aW9uUmVwb3NpdG9yeSAiU3RvcmVzIGFuZCByZXRyaWV2ZXMgdmVyaWZpY2F0aW9uIGNvZGVzIgogICAgICAgIHVzZXJSZXBvc2l0b3J5IC0+IGRhdGFiYXNlICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJhc3luY3BnIgogICAgICAgIHZlcmlmaWNhdGlvblJlcG9zaXRvcnkgLT4gZGF0YWJhc2UgIlJlYWRzIGZyb20gYW5kIHdyaXRlcyB0byIgImFzeW5jcGciCiAgICAgICAgZW1haWxOb3RpZmljYXRpb25TZXJ2aWNlIC0+IGVtYWlsU2VydmljZSAiU2VuZHMgZW1haWwgdmlhIiAiU01UUCAvIEhUVFAiCgogICAgICAgICMgTG9jYWwgZGVwbG95bWVudCBlbnZpcm9ubWVudAogICAgICAgIGxvY2FsID0gZGVwbG95bWVudEVudmlyb25tZW50ICJMb2NhbCIgewogICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiRGV2ZWxvcGVyIE1hY2hpbmUiIHsKCiAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAidXZpY29ybiIgIkFTR0kgc2VydmVyIiB7CiAgICAgICAgICAgICAgICAgICAgYXBpQXBwTG9jYWxJbnN0YW5jZSA9IGNvbnRhaW5lckluc3RhbmNlIGFwaUFwcAogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIGRlcGxveW1lbnROb2RlICJEb2NrZXIgQ29tcG9zZSIgewoKICAgICAgICAgICAgICAgICAgICBkZXBsb3ltZW50Tm9kZSAiUG9zdGdyZVNRTCAxOCIgewogICAgICAgICAgICAgICAgICAgICAgICBkYXRhYmFzZUxvY2FsSW5zdGFuY2UgPSBjb250YWluZXJJbnN0YW5jZSBkYXRhYmFzZQogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZGVwbG95bWVudE5vZGUgIk1haWxwaXQiICJTTVRQIHNlcnZlciBtb2NrIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGVtYWlsU2VydmljZUxvY2FsSW5zdGFuY2UgPSBzb2Z0d2FyZVN5c3RlbUluc3RhbmNlIGVtYWlsU2VydmljZQogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH0KICAgIH0KCiAgICB2aWV3cyB7CiAgICAgICAgc3lzdGVtQ29udGV4dCByZWdpc3RyYXRpb25BcGkgIlN5c3RlbUNvbnRleHRWaWV3IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBjb250YWluZXIgcmVnaXN0cmF0aW9uQXBpICJDb250YWluZXJWaWV3IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBjb21wb25lbnQgYXBpQXBwICJDb21wb25lbnRWaWV3IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBkZXBsb3ltZW50IHJlZ2lzdHJhdGlvbkFwaSAiTG9jYWwiICJMb2NhbERlcGxveW1lbnRWaWV3IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0IGxyCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJFeHRlcm5hbCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjZDNkM2QzCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBQZXJzb24KICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgQ3lsaW5kZXIKICAgICAgICAgICAgICAgIGhlaWdodCAyNTAKICAgICAgICAgICAgICAgIHdpZHRoIDMwMAogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQp9",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "0"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "containerId" : "4",
+      "elements" : [ {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "5",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "6",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "7",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "8",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "9",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "10",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "11",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "ComponentView",
+      "name" : "Component View: User Registration API - FastAPI Application",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "18"
+      }, {
+        "id" : "19"
+      }, {
+        "id" : "20"
+      }, {
+        "id" : "21"
+      }, {
+        "id" : "22"
+      }, {
+        "id" : "23"
+      }, {
+        "id" : "24"
+      }, {
+        "id" : "25"
+      }, {
+        "id" : "26"
+      } ]
+    } ],
+    "configuration" : {
+      "styles" : {
+        "elements" : [ {
+          "height" : 250,
+          "shape" : "Cylinder",
+          "tag" : "Database",
+          "width" : 300
+        }, {
+          "background" : "#d3d3d3",
+          "tag" : "External"
+        }, {
+          "shape" : "Person",
+          "tag" : "Person"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "4",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "12",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "ContainerView",
+      "name" : "Container View: User Registration API",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "14"
+      }, {
+        "id" : "15"
+      }, {
+        "id" : "16"
+      } ],
+      "softwareSystemId" : "3"
+    } ],
+    "deploymentViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "elements" : [ {
+        "id" : "27",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "28",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "29",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "30",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "31",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "32",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "34",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "35",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "environment" : "Local",
+      "key" : "LocalDeploymentView",
+      "name" : "Deployment View: User Registration API - Local",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "33"
+      }, {
+        "id" : "36"
+      } ],
+      "softwareSystemId" : "3"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "edgeSeparation" : 50,
+        "nodeSeparation" : 50,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 100,
+        "vertices" : true
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContextView",
+      "name" : "System Context View: User Registration API",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "13"
+      }, {
+        "id" : "17"
+      } ],
+      "softwareSystemId" : "3"
+    } ]
+  }
+}

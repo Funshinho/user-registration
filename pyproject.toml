@@ -10,5 +10,6 @@ packages = [{ include = "app" }]
 python = "^3.14"
 fastapi = "*"
 uvicorn = "*"
+asyncpg = "^0.31.0"
 
 

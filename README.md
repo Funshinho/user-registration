@@ -9,11 +9,12 @@ A user registration service built for the Dailymotion technical test. Users crea
 1. [Application overview](#application-overview)
 2. [Technical stack](#technical-stack)
 3. [Codebase structure](#codebase-structure)
-4. [Running the application](#running-the-application)
-5. [Running the tests](#running-the-tests)
-6. [API endpoints](#api-endpoints)
-7. [Applied trade-offs](#applied-trade-offs)
-8. [Potential improvements](#potential-improvements)
+4. [Architecture diagrams](#architecture-diagrams)
+5. [Running the application](#running-the-application)
+6. [Running the tests](#running-the-tests)
+7. [API endpoints](#api-endpoints)
+8. [Applied trade-offs](#applied-trade-offs)
+9. [Potential improvements](#potential-improvements)
 
 ---
 
@@ -102,6 +103,12 @@ tests/
 - **Repositories** — infrastructure adapters that execute raw SQL. They satisfy the port protocols structurally, without importing them.
 - **Services** — pure business logic. No framework imports, no SQL, no HTTP.
 - **Schemas** — Pydantic models used exclusively at the API boundary. Internal models (`app/models/`) are never serialised directly to responses.
+
+---
+
+## Architecture diagrams
+
+C4 model diagrams (System Context, Container, Component, and Deployment views) are located in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ---
 

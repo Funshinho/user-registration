@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "user-registration"
+version = "0.1.0"
+description = "User registration API with email verification"
+authors = ["Funsho David <funsho.david@proton.me>"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.dependencies]
+python = "^3.14"
+fastapi = "*"
+uvicorn = "*"
+
+

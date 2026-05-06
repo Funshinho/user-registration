@@ -3,7 +3,7 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 
 class UserCreate(BaseModel):
@@ -11,6 +11,12 @@ class UserCreate(BaseModel):
 
     email: EmailStr
     password: str
+
+
+class ActivateRequest(BaseModel):
+    """Activation request payload."""
+
+    code: str = Field(pattern=r"^\d{4}$")
 
 
 class UserResponse(BaseModel):

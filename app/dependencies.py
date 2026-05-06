@@ -9,6 +9,7 @@ from fastapi import Depends
 
 from app.db.pool import get_pool
 from app.repositories.user_repository import UserRepository
+from app.repositories.verification_code_repository import VerificationCodeRepository
 from app.services.email_service import MailpitEmailService
 from app.services.user_service import UserService
 
@@ -32,9 +33,13 @@ DbConnection = Annotated[asyncpg.Connection, Depends(get_db_connection)]
 EmailServiceDep = Annotated[MailpitEmailService, Depends(get_email_service)]
 
 
-def get_user_service(conn: DbConnection) -> UserService:
-    """Build a UserService wired to the request-scoped DB connection."""
-    return UserService(user_repo=UserRepository(conn))
+def get_user_service(conn: DbConnection, email_service: EmailServiceDep) -> UserService:
+    """Build a UserService wired to the request-scoped DB connection and email service."""
+    return UserService(
+        user_repo=UserRepository(conn),
+        code_repo=VerificationCodeRepository(conn),
+        email_service=email_service,
+    )
 
 
 UserServiceDep = Annotated[UserService, Depends(get_user_service)]

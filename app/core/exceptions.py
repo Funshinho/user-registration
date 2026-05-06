@@ -11,3 +11,7 @@ class UserNotFoundError(Exception):
 
 class InvalidCredentialsError(Exception):
     """Raised when email/password authentication fails."""
+
+
+class InvalidVerificationCodeError(Exception):
+    """Raised when the verification code is wrong or has expired."""

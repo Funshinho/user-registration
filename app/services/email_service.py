@@ -1,8 +1,11 @@
 """MailPit email service implementation."""
 
+import logging
 from email.message import EmailMessage
 
 import aiosmtplib
+
+logger = logging.getLogger(__name__)
 
 
 class MailpitEmailService:
@@ -23,4 +26,9 @@ class MailpitEmailService:
             f"Your verification code is: {code}\n\nIt expires in 1 minute."
         )
 
-        await aiosmtplib.send(message, hostname=self._host, port=self._port)
+        try:
+            await aiosmtplib.send(message, hostname=self._host, port=self._port)
+            logger.info("Verification email sent to %s", to)
+        except Exception:
+            logger.error("Failed to send verification email to %s", to, exc_info=True)
+            raise

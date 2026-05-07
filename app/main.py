@@ -1,5 +1,6 @@
 """Application main module."""
 
+import logging
 import os
 from contextlib import asynccontextmanager
 
@@ -8,6 +9,11 @@ from fastapi import FastAPI
 from app.api.exception_handlers import register_exception_handlers
 from app.api.v1.users import router as users_router
 from app.db.pool import close_pool, create_pool
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
 
 
 @asynccontextmanager

@@ -263,9 +263,9 @@ The current `POST /api/v1/users` is not idempotent. A client that retries after 
 
 There is currently no way to request a new code if the first one expires. A `POST /api/v1/users/resend` endpoint would improve usability without weakening security, as long as resend requests are rate-limited.
 
-### Structured logging and request tracing
+### Observability
 
-The application has no logging. This is essential for debugging and incident response.
+Basic plain-text logging is in place, but production use would require structured JSON logging to make fields queryable in log aggregators. Per-request correlation IDs are also missing, making it hard to trace a single request under concurrent load. Finally, no metrics are exposed.
 
 ### Async email delivery
 
